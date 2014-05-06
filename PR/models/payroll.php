@@ -1,0 +1,102 @@
+<?php
+class Payroll extends CI_Model
+{
+	var $payId; //PK
+	var $tax; //ภาษี
+	var $socialSecurity; //ประกันสังคม
+	var $empId; //รหัสพนักงาน
+
+	function __construct()
+	{
+			parent::__construct();
+			$this->load->database();
+	}
+
+	###### SET : payId (PK) ######
+	function setPayId($payId)
+	{
+		$this->payId = $payId;
+	}
+	###### GET : payId (PK) ######
+	function getPayId()
+	{
+		return $this->payId;
+	}
+	###### SET : tax (ภาษี) ######
+	function setTax($tax)
+	{
+		$this->tax = $tax;
+	}
+	###### GET : tax (ภาษี) ######
+	function getTax()
+	{
+		return $this->tax;
+	}
+	###### SET : socialSecurity (ประกันสังคม) ######
+	function setSocialSecurity($socialSecurity)
+	{
+		$this->socialSecurity = $socialSecurity;
+	}
+	###### GET : socialSecurity (ประกันสังคม) ######
+	function getSocialSecurity()
+	{
+		return $this->socialSecurity;
+	}
+	###### SET : empId (รหัสพนักงาน) ######
+	function setEmpId($empId)
+	{
+		$this->empId = $empId;
+	}
+	###### GET : empId (รหัสพนักงาน) ######
+	function getEmpId()
+	{
+		return $this->empId;
+	}
+
+	###### FUNCTION ######
+	function calWorkDay($empId) // ใช้คำนวนเงินที่ได้จากการทำงานตามวันทำงาน
+	{
+	//echo $empId;
+	//echo +'15'+'$empId';
+
+		$query = "SELECT  employees.empId,employees.salary, worktimes.workDay ".
+		 "FROM employees, worktimes ".
+		"WHERE employees.empId = worktimes.empId";
+		
+		$result = mysql_query($query) or die(mysql_error());
+	
+			while($row = mysql_fetch_array($result))
+				{
+			echo $row['empId']. " - ". $row['workDay'];
+			echo "<br />";
+				}
+
+		
+	}
+	function calDayAbs() // ใช้คำนวนเงินที่ถูกหักจากการขาดงาน
+	{
+
+	}
+	function calLateTime() // ใช้คำนวนเงินที่ถูกหักจากการมาสาย
+	{
+
+	}
+	function calOverTime() // ใช้คำนวนเงินที่ได้จากการทำงานล่วงเวลา
+	{
+
+	}
+	function calTax() // ใช้คำนวนภาษี
+	{
+
+	}
+	function calSocial() // ใช้คำนวนประกันสังคม
+	{
+
+	}
+	function calNatSalary() // ใช้คำนวนเงินได้สุทธิ
+	{
+
+	}
+
+}
+?>

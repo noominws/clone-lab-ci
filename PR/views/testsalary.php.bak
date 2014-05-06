@@ -1,0 +1,425 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>คำนวณภาษีเงินได้บุคคลธรรมดา ภ.ง.ด. 91 แบบง่าย</title>
+    <meta name="description" content="กองทุนบำเหน็จบำนาญข้าราชการ" />
+    <meta name="keywords" content="กองทุนบำเหน็จบำนาญข้าราชการ" />
+    
+    <link href="../css/shared.css" rel="stylesheet" type="text/css" />
+    <link href="../css/member.css" rel="stylesheet" type="text/css" />
+    <link href="../css/overlay.css" rel="stylesheet" type="text/css" />
+    
+    <script src="../js/jquery-1.7.2.min.js" type="text/javascript"></script>
+    <script src="../js/cufon-yui.js" type="text/javascript"></script>    
+    <script src="../js/DB_Ozone_X_400.font.js" type="text/javascript"></script>
+    <script src="../js/TH_SarabunPSK_400.font.js" type="text/javascript"></script>
+    <script src="../js/slides.min.jquery.js" type="text/javascript"></script>
+    <script src="/js/script.js" type="text/javascript"></script>
+    <script type="text/javascript">
+			var vSalary  = 0;
+			var vMonth  = 0;
+			var vBonus  = 0;
+			var vDeviden  = 0;
+			var vInterest  = 0;
+			var vOtherIncome  = 0;
+			var vTotalIncome  = 0;
+
+			var vTotalOutcome  = 0;
+			var vCharges  = 0;
+			var vSocialSecurity  = 0;
+			var vLTF_RMF  = 0;
+			var vInsurance  = 0;
+			var vHomeLoan  = 0;
+			var vDonationEdu  = 0;
+			var vDonation  = 0;
+			var vAllowanceParent  = 0;
+			var vAllowanceOwn  = 0;
+			var vAllowanceMate  = 0;
+			var vAllowanceChild  = 0;
+
+			var vRateSaving  = 0;
+			var vNetIncome  = 0;
+
+			var vRateAdded  = 0;
+			var vNetIncomeTax  = 0;
+
+			var vTotalNetIncome  = 0;
+			var vTotalNetIncomeTax  = 0;
+			
+			$(document).ready(function(){
+			
+				$('#formular2 input[type="text"]').keydown(function(event) {
+					// Allow: backspace, delete, tab, escape, and enter
+					if ( event.keyCode == 46 || event.keyCode == 8 || event.keyCode == 9 || event.keyCode == 27 || event.keyCode == 13 || 
+							 // Allow: Ctrl+A
+							(event.keyCode == 65 && event.ctrlKey === true) || 
+							 // Allow: home, end, left, right
+							(event.keyCode >= 35 && event.keyCode <= 39)) {
+									 // let it happen, don't do anything
+									 return;
+					}
+					else {
+							// Ensure that it is a number and stop the keypress
+							if (event.shiftKey || (event.keyCode < 48 || event.keyCode > 57) && (event.keyCode < 96 || event.keyCode > 105 )) {
+									event.preventDefault(); 
+							}   
+					}				
+				});	
+				$('#txtOtherIncome, #txtInterest, #txtDeviden, #txtMonth, #txtBonus, #txtSalary').change(function(){
+					if ($('#txtSalary').val() != '' && $('#txtMonth').val() != '')
+					{
+						vSalary = $('#txtSalary').val() - 0;
+						vMonth  = $('#txtMonth').val() - 0;
+						vTotalIncome = vTotalIncome + (vSalary * vMonth);
+
+					}
+					if ($('#txtBonus').val() != '')
+					{
+						vBonus = $('#txtBonus').val() - 0;
+						vTotalIncome = vTotalIncome + vBonus;
+
+					}
+					if ($('#txtDeviden').val() != '')
+					{
+						vDeviden = $('#txtDeviden').val() - 0;
+						vTotalIncome = vTotalIncome + vDeviden;
+
+					}
+					if ($('#txtInterest').val() != '')
+					{
+						vInterest = $('#txtInterest').val() - 0;
+						vTotalIncome = vTotalIncome + vInterest;
+
+					}
+					if ($('#txtOtherIncome').val() != '')
+					{
+						vOtherIncome = $('#txtOtherIncome').val() - 0;
+						vTotalIncome = vTotalIncome + vOtherIncome;
+
+					}
+					if(vTotalIncome != 0) 
+					{
+						$('#lblTotalIncome').val(Math.round(vTotalIncome));
+					} else 
+					{
+						$('#lblTotalIncome').val('');
+					}
+					Outcome_Income_RateAdded_Change();
+				});				
+
+				$('#txtSocialSecurity, #txtLTF_RMF, #txtInsurance, #txtHomeLoan, #txtDonationEdu, #txtDonation, #txtCharges, #txtAllowanceParent ,#txtAllowanceOwn, #txtAllowanceMate, #txtAllowanceChild').change(function(){
+					vTotalOutcome = 0;
+					txtArr = new Array('#txtSocialSecurity', '#txtLTF_RMF', '#txtInsurance', '#txtHomeLoan', '#txtDonationEdu', '#txtDonation', '#txtCharges', '#txtAllowanceParent', '#txtAllowanceOwn', '#txtAllowanceMate', '#txtAllowanceChild');
+					for(var txt in txtArr)
+					{
+						if ($(txtArr[txt]).val() != '')
+						{
+							if(txtArr[txt] == '#txtDonationEdu') 
+							{
+								vTotalOutcome = vTotalOutcome + ($(txtArr[txt]).val() - 0) * 2;
+							}
+							else
+							{
+								vTotalOutcome = vTotalOutcome + ($(txtArr[txt]).val() - 0);
+							}
+						}
+					}
+					if(vTotalOutcome != 0) 
+					{
+						$('#lblTotalOutcome').val(Math.round(vTotalOutcome));
+					} else 
+					{
+						$('#lblTotalOutcome').val('');
+					}
+					Outcome_Income_RateAdded_Change();
+				});
+
+				$('#txtRateSaving').change(function(){
+					var pRateSaving = $(this).val();
+					if (pRateSaving != '')
+					{
+						if (!(pRateSaving >=1 && pRateSaving <= 12))
+						{
+							alert("กรุณาระบุอัตราออมมาตรฐาน 1-12%");
+							$('#txtRateSaving').val('');
+							$('#txtRateSaving').focus();
+						}
+					}
+					Outcome_Income_RateAdded_Change();
+				});
+
+				$('#txtRateAdded').change(function(){
+					var pRateAdded = $(this).val();
+					if (pRateAdded != '')
+					{
+						if (!(pRateAdded >=1 && pRateAdded <= 12))
+						{
+							alert("กรุณาระบุอัตราออมเพิ่มเป็น 1-12%");
+							$('#txtRateAdded').val('');
+							$('#txtRateAdded').focus();
+						}
+					}
+					Outcome_Income_RateAdded_Change();
+				});
+
+				$('#btnClear').click(function(){
+						vSalary = 0;
+						vMonth = 0;
+						vBonus = 0;
+						vDeviden = 0;
+						vInterest = 0;
+						vOtherIncome = 0;
+						vTotalIncome = 0;
+
+						vTotalOutcome = 0;
+						vCharges = 0;
+						vSocialSecurity = 0;
+						vLTF_RMF = 0;
+						vInsurance = 0;
+						vHomeLoan = 0;
+						vDonationEdu = 0;
+						vDonation = 0;
+						vAllowanceParent = 0;
+						vAllowanceOwn = 0;
+						vAllowanceMate = 0;
+						vAllowanceChild = 0;
+
+						vRateSaving = 0;
+						vNetIncome = 0;
+
+						vRateAdded = 0;
+						vNetIncomeTax = 0;
+
+						vTotalNetIncome = 0;
+						vTotalNetIncomeTax = 0;
+
+						$('#txtSocialSecurity').val('');
+						$('#txtSalary').val('');
+						$('#txtRateAdded').val('');
+						$('#txtOtherIncome').val('');
+						$('#txtLTF_RMF').val('');
+						$('#txtInterest').val('');
+						$('#txtInsurance').val('');
+						$('#txtHomeLoan').val('');
+						$('#txtDonationEdu').val('');
+						$('#txtDonation').val('');
+						$('#txtDeviden').val('');
+						$('#txtBonus').val('');
+						$('#txtAllowanceParent').val('');
+						$('#txtAllowanceMate').val('');
+						$('#txtAllowanceChild').val('');
+						$('#lblTotalOutcome').val('');
+						$('#lblTotalNetIncomeTax').val('');
+						$('#lblTotalNetIncome').val('');
+						$('#lblTotalIncome').val('');
+						$('#lblNetIncomeTax').val('');
+						$('#lblNetIncome').val('');
+						$('#lblDiff').val('');
+
+						$('#txtSalary').focus()
+				});
+		});
+
+		function Outcome_Income_RateAdded_Change() {
+			if($('#lblTotalIncome').val() != '' && $('#lblTotalOutcome').val() != '' && $('#txtRateSaving').val() != '') {
+				vRateSaving = $('#txtRateSaving').val() - 0;
+				vNetIncome = vTotalIncome - vTotalOutcome - (vRateSaving / 100) * vSalary * vMonth;
+				$('#lblNetIncome').val(Math.round(vNetIncome));
+				vNetIncomeTax = CalTax(vNetIncome);
+				$('#lblNetIncomeTax').val(Math.round(vNetIncomeTax));
+
+				if($('#txtRateAdded').val() != '') {
+						vRateAdded = $('#txtRateAdded').val() - 0;
+						vTotalNetIncome = vTotalIncome - vTotalOutcome - ((vRateAdded + vRateSaving) / 100) * vSalary * vMonth;
+						$('#lblTotalNetIncome').val(Math.round(vTotalNetIncome));
+						vTotalNetIncomeTax = CalTax(vTotalNetIncome);
+						$('#lblTotalNetIncomeTax').val(Math.round(vTotalNetIncomeTax));
+				}
+			} else {
+				vNetIncome = 0;
+				$('#lblNetIncome').val('');
+				$('#lblNetIncomeTax').val('');
+
+				vNetIncomeTax = 0;
+				$('#lblTotalNetIncome').val('');
+				$('#lblTotalNetIncomeTax').val('');
+			}
+			NetIncomeTax_Change();
+		}
+
+		function CalTax(pNetIncome) {
+        var pIncome = 0;
+        var pIncomeAccu = 0;
+        var pTotalNetIncome = 0;
+        var pTempNetIncome = pNetIncome;
+				var arrTable = [[0,150000,0],
+											 [150000,300000,5],
+											 [300000,500000,10],
+											 [500000,750000,15],
+											 [750000,1000000,20],
+											 [1000000,2000000,25],
+											 [2000000,4000000, 30],
+											 [4000000,9999999, 35]];
+
+				for (var i=0; i<=7; i++)
+				{
+            var pMin  = arrTable[i][0];
+            var pMax  = arrTable[i][1];
+            var pRate = arrTable[i][2];
+						if (pMax == 9999999)
+						{
+							pIncome = pTempNetIncome;
+						} 
+						else
+						{
+							if (pTempNetIncome >= (pMax - pMin))
+							{
+                 pIncome = pMax - pMin;
+              }
+							else
+							{
+                 pIncome = pTempNetIncome;
+              }
+            }
+            pTempNetIncome = pTempNetIncome - pIncome;
+            pIncomeAccu = pIncomeAccu + pIncome;
+            if (pIncomeAccu > pNetIncome)
+						{
+                break;
+            }
+						else
+						{
+                pTotalNetIncome = pTotalNetIncome + (pIncome * pRate / 100);
+            }
+        }
+        return pTotalNetIncome;
+    }
+
+		function NetIncomeTax_Change() {
+				if ($('#lblNetIncomeTax').val() != '' && $('#lblTotalNetIncomeTax').val() != '')
+				{
+						var vDiff = vNetIncomeTax - vTotalNetIncomeTax;
+						$('#lblDiff').val(Math.round(vDiff));
+				}
+				else
+				{
+						$('#lblDiff').val('');
+				}
+		}
+
+		function clearLabel() {
+        $('#txtSalary').val('');
+        $('#txtMonth').val('');
+        $('#txtBonus').val('');
+        $('#txtDeviden').val('');
+        $('#txtInterest').val('');
+        $('#txtOtherIncome').val('');
+        $('#lblTotalIncome').val('');
+		}
+</script>
+</head>
+<body id="body" class="memberpage">
+	
+	<div id="skin">
+		<img src="../images/skin/bird/member/member2.png" alt="" style="position:absolute;left:-50px;top:229px;"/>
+	</div>
+    
+	<div class="wrap_fullwidth">
+		<div class="center">
+            <!--start content-->
+             <div class="wrap_content" id="member">
+ 
+        
+                 <div class="main lineBtm">
+                    <h2>วางแผนการเงิน</h2>
+                    <h3 class="heading">คำนวณภาษีเงินได้บุคคลธรรมดา ภ.ง.ด. 91 แบบง่าย</h3>
+										<form id="formular2">
+											<h4>เงินได้ที่ต้องเสียภาษี</h4>
+											<table style="text-indent:1cm;" border="0" cellpadding="1" cellspacing="5">
+												<tr>
+													<td width="250" valign="top">
+														<label class="keyword"><B>เงินเดือน</B></label>
+													</td>
+													<td valign="top" nowrap>
+														<input type="text" id="txtSalary" name="txtSalary" />
+														<label class="keyword"><B>/ เดือน x </B></label>
+														<input type="text" id="txtMonth" name="txtMonth" style="width:20px;" value="12" readonly tabindex="-1"/>
+													</td>
+												</tr>
+												<tr>
+													<td width="250" valign="top">
+														<label class="keyword"><B>โบนัส</B></label>
+													</td>
+													<td valign="top">
+														<input type="text" id="txtBonus" name="txtBonus" />
+														<label class="keyword"><B>บาท</B></label>
+													</td>
+												</tr>
+												<tr>
+													<td width="250" valign="top">
+														<label class="keyword"><B>เงินปันผล</B></label>
+													</td>
+													<td valign="top">
+														<input type="text" id="txtDeviden" name="txtDeviden" />
+														<label class="keyword"><B>บาท</B></label>
+													</td>
+												</tr>
+												<tr>
+													<td width="250" valign="top">
+														<label class="keyword"><B>ดอกเบี้ย</B></label>
+													</td>
+													<td valign="top">
+														<input type="text" id="txtInterest" name="txtInterest" />
+														<label class="keyword"><B>บาท</B></label>
+													</td>
+												</tr>
+												<tr>
+													<td width="250" valign="top">
+														<label class="keyword"><B>รายได้อื่นๆ</B></label>
+													</td>
+													<td valign="top">
+														<input type="text" id="txtOtherIncome" name="txtOtherIncome" />
+														<label class="keyword"><B>บาท</B></label>
+													</td>
+												</tr>
+												<tr>
+													<td width="250" valign="bottom">
+														<label class="keyword" style="color:#FF8000"><B>รวมรายได้</B></label>
+													</td>
+													<td valign="bottom">
+														<input type="text" id="lblTotalIncome" name="lblTotalIncome" style="background-color:#FFF0E1" readonly tabindex="-1"/>
+														<label class="keyword" style="color:#FF8000"><B>บาท / ปี</B></label>
+													</td>
+												</tr>
+											</table>
+											
+										</form>
+                </div>
+             </div>
+            <!--end content-->
+            
+        </div>
+	</div>
+<script type="text/javascript">
+	//Project Slides
+	$('#project').slides({
+		preload: true,
+		preloadImage: '../images/skin/loader.gif',
+		generateNextPrev: true,
+		generatePagination: false
+	});
+
+</script>
+
+		<!-- The overlay and the box -->
+    <div class="overlay" id="overlay" style="display:none;"></div>
+    <div class="overlayOuter" id="boxPresent">
+    	<a class="boxclose"></a>
+    	<div class="overlayInner"></div>
+    </div>
+
+</body>
+</html>

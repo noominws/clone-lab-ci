@@ -1,0 +1,12 @@
+<?php
+$file1 = "./test.txt";
+$lines = file($file1); 
+$count = count($lines);
+echo($count);
+?> 
+55
+5
+5
+5
+5 '//' b
+5

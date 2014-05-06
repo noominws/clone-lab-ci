@@ -1,0 +1,52 @@
+<?php
+/**
+#########################
+Controller แสดงข้อมูลและคำนวนเงินเดือนต่างๆของ employee
+ผู้พัฒนา: นาย บัณฑิต  สุวรรณเลิศ 552535003
+พัฒนาเมื่อ: 2014-05-02 14:39 AM
+ภายในประกอบด้วย
+- function index() สำหรับแสดงผลในหน้าแรก
+	โดยด้านในจะมีคำสั่งที่ใช้ในการหาค่า Max, Min, Avg
+#########################
+**/
+class Main extends CI_Controller 
+{
+	function __construct()
+			{
+				parent::__construct();
+				$this->load->model('Work3');
+			}
+	function index()
+	{
+
+		// หาค่า Max, Min  จาก ฟิลล์ salary
+		$maxSalary = $this->Work3->getMax('employees','salary');    // ('ตางราง','ฟิลล์');
+		echo 'Max Salary : ';
+		echo $maxSalary[0]['salary'];
+
+		$minSalary = $this->Work3->getMin('employees','salary');
+		echo  '<br>';
+		echo 'Min Salary : ';
+		echo $minSalary[0]['salary'];
+		
+		// หาค่า Max, Min  จาก ฟิลล์ amount
+		$maxAmount = $this->Work3->getMax('employees','saleAmount');
+		echo  '<br>';
+		echo 'Max saleAmount : ';
+		echo number_format($maxAmount[0]['saleAmount'], 0, '.', ',');
+
+		$minAmount = $this->Work3->getMin('employees','saleAmount');
+		echo  '<br>';
+		echo 'Min saleAmount : ';
+		echo number_format($minAmount[0]['saleAmount'], 0, '.', ',');  
+		
+		// หาค่า เฉลี่ย  จาก ฟิลล์ salary
+		$avgSalary = $this->Work3->getAvg('employees','salary');
+		echo  '<br>';
+		echo 'AVG saleAmount : ';
+		echo number_format($avgSalary[0]['salary'], 0, '.', ',');	
+
+		$this->load->view('home');
+	}
+}	
+?>

@@ -1,0 +1,44 @@
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Payroll</title>
+<style type="text/css">
+	<!--
+	#test {
+	width: 100%;
+	background-color: #8B6914;
+	height: 130px;
+	vertical-align:middle;
+	}
+	-->
+</style>
+
+</head>
+<body>
+<br>
+<table  align="center" width="40%" >
+<div id="test">
+<br>
+<font size="60" color="#FFFFFF">&nbsp;&nbsp;<u>ระบบเงินเดือน</u></font><br>
+ 	<tr>
+		<td>
+		<br><br>
+		<fieldset>
+			<legend>
+				<h1>นำเข้าข้อมูลพนักงาน</h1>
+			</legend>
+		
+<br>
+<form  action="<?php echo site_url('main/doEmp');?>" method="post">
+<center>
+	<table>
+			<tr>
+				<td >
+					<center><input type="submit" value="นำเข้าข้อมูล"></center>
+				</td>
+			</tr>
+</div>
+	</table>
+</fieldset>
+</body>
+</html>
