@@ -2,7 +2,7 @@
 
 /*
  *---------------------------------------------------------------
- * APPLICATION ENVIRONMENT by NICK 2014-06-05 55555
+ * APPLICATION ENVIRONMENT by NICK & NOOM 2014-06-05 55555
  *---------------------------------------------------------------
  *
  * You can load different configurations depending on your
